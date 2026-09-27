@@ -13,6 +13,7 @@ const NAV = [
   { href: '/marketplace', label: 'Marketplace' },
   { href: '/lab', label: 'Test Lab' },
   { href: '/live', label: 'Live Transcription' },
+  { href: '/meetings', label: 'Meetings' },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
