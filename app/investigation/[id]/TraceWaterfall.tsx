@@ -22,6 +22,7 @@ export interface TraceResponse {
   traceId: string;
   spans: Span[];
   latency: Record<string, { p50: number; p95: number; p99: number; count: number }>;
+  persisted?: boolean;
   error?: string;
 }
 
@@ -70,9 +71,9 @@ export default function TraceWaterfall({ interactionId }: { interactionId: strin
       <div className="panel">
         <h3>Trace</h3>
         <p style={{ color: 'var(--dim)', fontSize: 12 }}>
-          Spans live in the running governance session and are not persisted yet —
-          this interaction has already been closed. Run a scenario and open its
-          investigation while the session is live to see the waterfall.
+          No spans recorded for this interaction. Interactions persisted before
+          span persistence was added keep no waterfall — run any scenario now
+          and its investigation will include the trace.
         </p>
       </div>
     );
@@ -90,6 +91,7 @@ export default function TraceWaterfall({ interactionId }: { interactionId: strin
       <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', marginBottom: 10 }}>
         <span className="pill pill-blue mono" style={{ fontSize: 10 }}>TRACE {trace.traceId.slice(0, 16)}…</span>
         <span className="pill pill-gray mono" style={{ fontSize: 10 }}>{trace.spans.length} spans</span>
+        {trace.persisted && <span className="pill pill-purple mono" style={{ fontSize: 10 }}>PERSISTED</span>}
       </div>
 
       {trace.spans.map(s => (
