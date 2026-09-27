@@ -6,6 +6,7 @@ import { apiGet, ApiOffline } from '../../lib/api';
 import { ActionPill } from '../../components';
 import PlaybackClient, { type TimelineEntry } from './PlaybackClient';
 import TraceWaterfall from './TraceWaterfall';
+import GovernancePanels from './GovernancePanels';
 
 interface ReplayResponse {
   interaction: {
@@ -125,6 +126,8 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
           <div style={{ marginTop: 16 }}>
             <TraceWaterfall interactionId={id} />
           </div>
+
+          <GovernancePanels interactionId={id} />
         </div>
       </div>
     </div>
