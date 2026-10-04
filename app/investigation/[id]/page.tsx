@@ -7,11 +7,13 @@ import { ActionPill } from '../../components';
 import PlaybackClient, { type TimelineEntry } from './PlaybackClient';
 import TraceWaterfall from './TraceWaterfall';
 import GovernancePanels from './GovernancePanels';
+import BiomarkersPanel, { type BiomarkerReport } from './BiomarkersPanel';
 
 interface ReplayResponse {
   interaction: {
     interactionId: string; organizationId: string; platform: string; channel: string;
     startedAt: string; endedAt?: string; scenarioLabel?: string; peakRisk: number; finalRisk: number;
+    biomarkers?: BiomarkerReport;
   } | null;
   timeline: TimelineEntry[];
   decisions: Record<string, unknown>[];
@@ -130,6 +132,8 @@ export default async function InvestigationPage({ params }: { params: Promise<{ 
           <GovernancePanels interactionId={id} />
         </div>
       </div>
+
+      <BiomarkersPanel report={interaction?.biomarkers} />
     </div>
   );
 }

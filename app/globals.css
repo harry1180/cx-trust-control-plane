@@ -1,42 +1,147 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg0: #0a0e14;
+  --bg1: #0f141c;
+  --bg2: #151c26;
+  --panel: #12192480;
+  --border: #1f2a38;
+  --text: #d7dee8;
+  --dim: #7d8b9d;
+  --green: #2ecc8f;
+  --amber: #e8b04a;
+  --red: #e05252;
+  --blue: #4a9de8;
+  --purple: #9b7fe8;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg0);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  min-height: 100%;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
+.mono { font-family: ui-monospace, 'Cascadia Code', Consolas, monospace; }
+
+.panel {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.panel h3 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--dim);
+  margin-bottom: 12px;
+  font-weight: 600;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+.statgrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-a {
-  color: inherit;
+.stat {
+  background: var(--bg1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.stat .num { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.stat .lbl { font-size: 11px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+
+.pill {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.pill-green { background: #2ecc8f22; color: var(--green); }
+.pill-amber { background: #e8b04a22; color: var(--amber); }
+.pill-red { background: #e0525222; color: var(--red); }
+.pill-blue { background: #4a9de822; color: var(--blue); }
+.pill-gray { background: #7d8b9d22; color: var(--dim); }
+.pill-purple { background: #9b7fe822; color: var(--purple); }
+
+.btn {
+  background: var(--bg2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.btn:hover { border-color: #35506e; background: #1a2432; }
+.btn-primary { background: #16324a; border-color: #2b5f8a; }
+.btn-primary:hover { background: #1c405e; }
+.btn:disabled { opacity: 0.45; cursor: default; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg1);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.topbar .brand { font-weight: 700; font-size: 15px; letter-spacing: 0.02em; }
+.topbar .brand span { color: var(--blue); }
+
+.nav a {
+  color: var(--dim);
   text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+.nav a:hover { color: var(--text); background: var(--bg2); }
+.nav a.active { color: var(--text); background: var(--bg2); }
+
+.page { padding: 20px 24px 40px; max-width: 1500px; margin: 0 auto; }
+
+.timeline-row {
+  display: grid;
+  grid-template-columns: 64px 90px 1fr;
+  gap: 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid #16202c;
+  font-size: 13px;
+  align-items: baseline;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid3 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 16px; }
+
+table.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.tbl th {
+  text-align: left; color: var(--dim); font-size: 11px; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 6px 10px; border-bottom: 1px solid var(--border);
 }
+table.tbl td { padding: 8px 10px; border-bottom: 1px solid #16202c; }
+table.tbl tr:hover td { background: #141d29; }
+
+.riskbar { height: 6px; border-radius: 3px; background: #1a2432; overflow: hidden; }
+.riskbar > div { height: 100%; border-radius: 3px; }
+
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+
+.sim-btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
