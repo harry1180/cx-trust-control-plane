@@ -1,0 +1,78 @@
+# CX Trust Control Plane — local container stack.
+# Nothing publishes a raw port: binds are 127.0.0.1 only and public access
+# goes through the host Traefik proxy (labels below, TLS via `letsencrypt`).
+#
+# The live-transcription sidecar is a SEPARATE compose project:
+#   /opt/yard/thethinkingvoicetranslator  (project `ttv`, service `live`, :8820)
+# exposed by Traefik as https://governance.agenticalchemy.io/live (+ /live/<id>
+# share links, /live-healthz probe).
+
+services:
+  api:
+    # Prebuilt image. Rebuild only from the monorepo layout:
+    #   git checkout backup/control-plane-20261004-0053 -- packages
+    #   (then add a build: section pointing at packages/cxtrust-server/Dockerfile)
+    image: cx-trust-control-plane-api:latest
+    ports:
+      - "127.0.0.1:8787:8787"
+    environment:
+      CXTRUST_PORT: "8787"
+      CXTRUST_DB: /data/cxtrust.db
+      GOVERNANCE_MODE: ${GOVERNANCE_MODE:-enforce}
+      CXTRUST_API_KEYS: ${CXTRUST_API_KEYS}
+    volumes:
+      - cxtrust-data:/data
+    labels:
+      # Public API router: catch-all at priority 10 — /console, /_next, /api
+      # and the live-transcription paths are claimed by higher-priority
+      # routers on other containers.
+      - traefik.enable=true
+      - traefik.http.services.cxtrust.loadbalancer.server.port=8787
+      - traefik.http.routers.cxtrust.entrypoints=websecure
+      - traefik.http.routers.cxtrust.priority=10
+      - traefik.http.routers.cxtrust.rule=Host(`governance.agenticalchemy.io`) || Host(`www.agenticalchemy.io`) || Host(`agenticalchemy.io`)
+      - traefik.http.routers.cxtrust.tls.certresolver=letsencrypt
+    healthcheck:
+      # NB: every `$` must be `$$` so compose passes it to the shell instead
+      # of interpolating it.
+      test: ["CMD-SHELL", 'K="$${CXTRUST_API_KEYS%%,*}"; wget -qO- $${K:+--header="X-API-Key: $${K}"} http://127.0.0.1:8787/healthz || exit 1']
+      interval: 30s
+      timeout: 1s
+      retries: 3
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    ports:
+      - "127.0.0.1:3030:3000"
+    environment:
+      CXTRUST_API_URL: http://api:8787
+      CXTRUST_API_KEY: ${CXTRUST_API_KEY}
+      # Base the /live console page builds its health probe, iframe src and
+      # share-link text from (must be the public origin, not localhost).
+      NEXT_PUBLIC_LIVE_URL: https://governance.agenticalchemy.io
+    depends_on:
+      - api
+    labels:
+      - traefik.enable=true
+      - traefik.http.services.cxtrust-web.loadbalancer.server.port=3000
+      - traefik.http.middlewares.web-auth.basicauth.users=${CONSOLE_BASICAUTH}
+      - traefik.http.middlewares.web-pref.addprefix.prefix=/console
+      - traefik.http.routers.cxtrust-web.entrypoints=websecure
+      - traefik.http.routers.cxtrust-web.priority=20
+      - traefik.http.routers.cxtrust-web.rule=(Host(`governance.agenticalchemy.io`) || Host(`www.agenticalchemy.io`) || Host(`agenticalchemy.io`)) && PathPrefix(`/console`)
+      - traefik.http.routers.cxtrust-web.middlewares=web-auth
+      - traefik.http.routers.cxtrust-web.service=cxtrust-web
+      - traefik.http.routers.cxtrust-web.tls.certresolver=letsencrypt
+      - traefik.http.routers.cxtrust-web-root.entrypoints=websecure
+      - traefik.http.routers.cxtrust-web-root.priority=30
+      - traefik.http.routers.cxtrust-web-root.rule=(Host(`governance.agenticalchemy.io`) || Host(`www.agenticalchemy.io`) || Host(`agenticalchemy.io`)) && (PathPrefix(`/_next`) || PathPrefix(`/api`))
+      - traefik.http.routers.cxtrust-web-root.middlewares=web-auth,web-pref
+      - traefik.http.routers.cxtrust-web-root.service=cxtrust-web
+      - traefik.http.routers.cxtrust-web-root.tls.certresolver=letsencrypt
+    restart: unless-stopped
+
+volumes:
+  cxtrust-data:
