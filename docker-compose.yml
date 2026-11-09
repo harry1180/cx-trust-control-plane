@@ -9,9 +9,11 @@
 
 services:
   api:
-    # Prebuilt image. Rebuild only from the monorepo layout:
-    #   git checkout backup/control-plane-20261004-0053 -- packages
-    #   (then add a build: section pointing at packages/cxtrust-server/Dockerfile)
+    # Built from source — the API runs its TypeScript directly on Node 22
+    # (no compile step). `docker compose up --build` works on a fresh clone.
+    build:
+      context: .
+      dockerfile: packages/cxtrust-server/Dockerfile
     image: cx-trust-control-plane-api:latest
     ports:
       - "127.0.0.1:8787:8787"

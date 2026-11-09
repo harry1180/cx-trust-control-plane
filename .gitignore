@@ -32,10 +32,22 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
 
+# runtime databases (sqlite state — never commit)
+*.db
+*.db-wal
+*.db-shm
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# audio capture leftovers + python bytecode
+*.wav.last
+.last-*.wav
+__pycache__/
+*.pyc

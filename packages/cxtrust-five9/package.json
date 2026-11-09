@@ -1,0 +1,15 @@
+{
+  "name": "@cxtrust/five9",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node src/index.ts",
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cxtrust/core": "workspace:*",
+    "@cxtrust/server": "workspace:*"
+  }
+}

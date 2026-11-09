@@ -1,0 +1,10 @@
+{
+  "extends": "../cxtrust-core/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "src",
+    "test"
+  ]
+}

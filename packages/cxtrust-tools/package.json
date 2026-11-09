@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "@cxtrust/core": "workspace:*"
+  },
+  "main": "src/index.ts",
+  "name": "@cxtrust/tools",
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "types": "src/index.ts",
+  "version": "0.1.0"
+}

@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "@cxtrust/core": "workspace:*"
+  },
+  "main": "src/all.ts",
+  "types": "src/all.ts",
+  "name": "@cxtrust/convintel",
+  "scripts": {
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "type": "module",
+  "types": "src/index.ts",
+  "version": "0.1.0"
+}

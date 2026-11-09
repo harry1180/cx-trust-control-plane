@@ -1,0 +1,34 @@
+{
+  "name": "@cxtrust/server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "start": "node src/index.ts",
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cxtrust/alerting": "workspace:^",
+    "@cxtrust/trustnetwork": "workspace:^",
+    "@cxtrust/core": "workspace:^",
+    "@cxtrust/threatgraph": "workspace:^",
+    "@types/pg": "^8.23.1",
+    "pg": "^8.23.0",
+    "ws": "^8",
+    "@cxtrust/marketplace": "workspace:^",
+    "@cxtrust/biometrics": "workspace:^",
+    "@cxtrust/passport": "workspace:^",
+    "@cxtrust/simulator": "workspace:^",
+    "@cxtrust/threatpacks": "workspace:^",
+    "@cxtrust/policycraft": "workspace:*",
+    "@cxtrust/tools": "workspace:*",
+    "@cxtrust/raggov": "workspace:*",
+    "@cxtrust/lab": "workspace:*",
+    "@cxtrust/convintel": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/ws": "^8"
+  }
+}

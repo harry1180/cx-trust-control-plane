@@ -1,0 +1,1 @@
+{"dependencies":{"@cxtrust/core":"workspace:*","@cxtrust/server":"workspace:*","ws":"^8.18.0"},"devDependencies":{"@types/ws":"^8"},"main":"src/index.ts","name":"@cxtrust/genesys","scripts":{"start":"node src/index.ts","test":"node --test \"test/*.test.ts\"","typecheck":"tsc --noEmit"},"type":"module","version":"0.1.0"}

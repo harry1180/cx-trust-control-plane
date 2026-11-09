@@ -1,3 +1,18 @@
+## Run with Docker (local rebuild)
+
+```bash
+git clone <your-fork-url> cx-trust-control-plane
+cd cx-trust-control-plane
+cp .env.example .env     # optional — works without it (auth disabled, local only)
+docker compose up --build
+```
+
+- Console: http://localhost:3030 — API health: http://127.0.0.1:8787/healthz
+- `api` builds from `packages/cxtrust-server/Dockerfile`, `web` builds from `apps/web/Dockerfile`.
+- To enable auth locally, set `CXTRUST_API_KEYS` and `CXTRUST_API_KEY` to the SAME value in `.env` (see `.env.example`).
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

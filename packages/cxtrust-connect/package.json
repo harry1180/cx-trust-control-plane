@@ -1,0 +1,22 @@
+{
+  "name": "@cxtrust/connect",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node src/index.ts",
+    "test": "node --test \"test/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@aws-sdk/client-connect": "^3.1137.0",
+    "@aws-sdk/client-transcribe-streaming": "^3.1137.0",
+    "@cxtrust/core": "workspace:*",
+    "@cxtrust/server": "workspace:^",
+    "@cxtrust/twilio": "workspace:*",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/ws": "^8"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@cxtrust/threatpacks",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "test": "node --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cxtrust/core": "workspace:*"
+  }
+}
